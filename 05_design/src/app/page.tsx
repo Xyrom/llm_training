@@ -291,12 +291,13 @@ export default function Home() {
                     required
                     min={0}
                     value={addForm.stock}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
                       setAddForm((f) => ({
                         ...f,
-                        stock: parseInt(e.target.value),
-                      }))
-                    }
+                        stock: isNaN(value) ? 0 : value,
+                      }));
+                    }}
                   />
                 </div>
               </div>
