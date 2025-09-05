@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Float
+from sqlalchemy import Column, DateTime, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -25,10 +25,12 @@ class Product(Base):
     stock = Column(Integer, default=0)
 
 
+
+# BasketItem model
 class BasketItem(Base):
     __tablename__ = "basket_items"
     id = Column(Integer, primary_key=True, index=True)
-    product_id = Column(Integer, index=True)
+    product_id = Column(Integer, ForeignKey('products.id'), index=True)
     quantity = Column(Integer, default=1)
 
 

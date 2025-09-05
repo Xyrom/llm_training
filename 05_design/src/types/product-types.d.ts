@@ -5,3 +5,8 @@ export type Product = {
   description?: string;
   stock: number;
 };
+
+export type BasketItem = {
+  product: Product;
+  quantity: number;
+};

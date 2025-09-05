@@ -12,7 +12,7 @@ import {
   removeFromBasket,
 } from "../api";
 import { FiSearch } from "react-icons/fi";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/product-types";
 import Basket from "../components/Basket";
 import ProductGrid from "../components/ProductGrid";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { FiEye, FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/product-types";
 
 interface ProductCardProps {
   product: Product;

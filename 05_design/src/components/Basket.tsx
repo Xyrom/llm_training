@@ -1,17 +1,11 @@
 import React from "react";
-import type { Product } from "../types/Product";
-
-interface BasketItem {
-  product: Product;
-  quantity: number;
-}
+import type { BasketItem } from "../types/product-types";
+import { FiMinus, FiShoppingCart } from "react-icons/fi";
 
 interface BasketProps {
   basket: BasketItem[];
   onRemove: (productId: number) => void;
 }
-
-import { FiMinus, FiShoppingCart } from "react-icons/fi";
 
 const Basket: React.FC<BasketProps> = ({ basket, onRemove }) => {
   if (basket.length === 0) return null;
