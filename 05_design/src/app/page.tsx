@@ -411,7 +411,7 @@ export default function Home() {
                     onChange={(e) =>
                       setEditForm((f) => ({
                         ...f,
-                        price: parseFloat(e.target.value),
+                        price: isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value),
                       }))
                     }
                   />
