@@ -428,10 +428,13 @@ export default function Home() {
                     min={0}
                     value={editForm.stock}
                     onChange={(e) =>
-                      setEditForm((f) => ({
-                        ...f,
-                        stock: parseInt(e.target.value),
-                      }))
+                      setEditForm((f) => {
+                        const value = parseInt(e.target.value);
+                        return {
+                          ...f,
+                          stock: isNaN(value) ? 0 : value,
+                        };
+                      })
                     }
                   />
                 </div>
