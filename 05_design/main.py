@@ -10,18 +10,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import settings
 from database import Product, create_tables, get_db
 
-app = FastAPI(title=settings.app_name)
-
-# Allow CORS for frontend (adjust origins as needed)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Change to your frontend URL in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
 class ProductCreateRequest(BaseModel):
     name: str
     price: float
