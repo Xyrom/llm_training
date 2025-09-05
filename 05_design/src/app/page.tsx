@@ -7,16 +7,14 @@ import {
   addProduct,
   updateProduct,
   deleteProduct as deleteProductApi,
+  getBasket,
+  addToBasket,
+  removeFromBasket,
 } from "../api";
-import { FiEye, FiEdit, FiTrash2, FiSearch } from "react-icons/fi";
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  description?: string;
-  stock: number;
-};
+import { FiSearch } from "react-icons/fi";
+import type { Product } from "../types/product-types";
+import Basket from "../components/Basket";
+import ProductGrid from "../components/ProductGrid";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -47,9 +45,67 @@ export default function Home() {
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  // Basket state (from backend)
+  const [basket, setBasket] = useState<
+    { product: Product; quantity: number }[]
+  >([]);
+  const [basketLoading, setBasketLoading] = useState(false);
+  const [basketError, setBasketError] = useState<string | null>(null);
+
+  // Fetch basket from backend
+  async function fetchBasket() {
+    setBasketLoading(true);
+    try {
+      const data = await getBasket();
+      setBasket(data);
+      setBasketError(null);
+    } catch (err) {
+      setBasketError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBasketLoading(false);
+    }
+  }
+
+  // Add to basket handler (backend)
+  async function handleAddToBasket(product: Product) {
+    try {
+      await addToBasket(product.id, 1);
+      await fetchBasket();
+      await fetchProducts();
+    } catch (err) {
+      setBasketError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  // Remove from basket handler (backend)
+  async function handleRemoveFromBasket(productId: number) {
+    try {
+      await removeFromBasket(productId);
+      await fetchBasket();
+      await fetchProducts();
+    } catch (err) {
+      setBasketError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  // Delete product handler (backend)
+  async function handleDeleteProduct(productId: number) {
+    try {
+      setDeleteLoading(true);
+      await deleteProductApi(productId);
+      await fetchProducts();
+      await fetchBasket();
+      setShowDeleteDialog(false);
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setDeleteLoading(false);
+    }
+  }
 
   useEffect(() => {
     fetchProducts();
+    fetchBasket();
   }, []);
 
   async function fetchProducts() {
@@ -66,7 +122,23 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fff] font-[Inter,sans-serif]">
+    <div className="min-h-screen bg-[#fff] font-[Inter,sans-serif] relative">
+      <Basket
+        basket={basket.filter((item) =>
+          products.some((p) => p.id === item.product.id)
+        )}
+        onRemove={handleRemoveFromBasket}
+      />
+      {basketLoading && (
+        <div className="fixed left-8 bottom-32 z-50 bg-white border border-[#E5E7EB] rounded-[8px] shadow p-3 text-gray-500">
+          Loading basket...
+        </div>
+      )}
+      {basketError && (
+        <div className="fixed left-8 bottom-32 z-50 bg-white border border-[#F43F5E] rounded-[8px] shadow p-3 text-[#F43F5E]">
+          {basketError}
+        </div>
+      )}
       <div className="max-w-[1240px] mx-auto pt-8 px-6">
         <div className="flex flex-row items-center justify-between mb-6">
           <h1
@@ -94,92 +166,30 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-[16px] p-6 flex flex-col gap-4 min-h-[220px] shadow-sm border border-[#E5E7EB]"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            >
-              <h2
-                className="text-[15px] font-normal text-[#18181B] mb-1 tracking-tight"
-                style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-              >
-                {product.name}
-              </h2>
-              <p
-                className="text-[13px] text-[#71717A] flex-1 mb-2"
-                style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-              >
-                {product.description}
-              </p>
-              <div className="flex justify-between items-end mt-2">
-                <span
-                  className="text-[14px] font-normal text-[#18181B]"
-                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                >
-                  ${product.price}
-                </span>
-                <span
-                  className="text-[12px] text-[#71717A]"
-                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                >
-                  Stock: {product.stock}
-                </span>
-              </div>
-              <div className="flex gap-2 mt-4">
-                <button
-                  className="flex items-center justify-center gap-2 px-4 py-2 min-w-[110px] bg-[#fff] text-[#18181B] rounded-[8px] text-[13px] font-normal border border-[#E5E7EB] hover:bg-[#F7F7F8] transition-all duration-150"
-                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                  onClick={() => {
-                    setDetailProduct(product);
-                    setShowDetailDialog(true);
-                  }}
-                >
-                  <FiEye className="h-4 w-4" />{" "}
-                  <span
-                    style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                  >
-                    View
-                  </span>
-                </button>
-                <button
-                  className="flex items-center justify-center gap-2 px-4 py-2 min-w-[110px] bg-[#fff] text-[#18181B] rounded-[8px] text-[13px] font-normal border border-[#E5E7EB] hover:bg-[#F7F7F8] transition-all duration-150"
-                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                  onClick={() => {
-                    setEditProduct(product);
-                    setEditForm({
-                      name: product.name,
-                      price: product.price,
-                      description: product.description || "",
-                      stock: product.stock,
-                    });
-                    setShowEditDialog(true);
-                    setEditError(null);
-                  }}
-                >
-                  <FiEdit className="h-4 w-4" />{" "}
-                  <span
-                    style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                  >
-                    Edit
-                  </span>
-                </button>
-                <button
-                  className="flex items-center gap-2 px-4 py-2 bg-[#F43F5E] text-white rounded-[8px] text-[13px] font-normal border border-[#F43F5E] hover:bg-[#e11d48] transition-all duration-150"
-                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
-                  onClick={() => {
-                    setDeleteProduct(product);
-                    setShowDeleteDialog(true);
-                    setDeleteError(null);
-                  }}
-                >
-                  <FiTrash2 className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProductGrid
+          products={products}
+          onAddToBasket={handleAddToBasket}
+          onView={(product) => {
+            setDetailProduct(product);
+            setShowDetailDialog(true);
+          }}
+          onEdit={(product) => {
+            setEditProduct(product);
+            setEditForm({
+              name: product.name,
+              price: product.price,
+              description: product.description || "",
+              stock: product.stock,
+            });
+            setShowEditDialog(true);
+            setEditError(null);
+          }}
+          onDelete={(product) => {
+            setDeleteProduct(product);
+            setShowDeleteDialog(true);
+            setDeleteError(null);
+          }}
+        />
       </div>
       {/* Add Product Dialog */}
       {showAddDialog && (
@@ -411,7 +421,9 @@ export default function Home() {
                     onChange={(e) =>
                       setEditForm((f) => ({
                         ...f,
-                        price: isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value),
+                        price: isNaN(parseFloat(e.target.value))
+                          ? 0
+                          : parseFloat(e.target.value),
                       }))
                     }
                   />
