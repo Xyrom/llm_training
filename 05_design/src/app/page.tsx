@@ -251,13 +251,10 @@ export default function Home() {
                   className="rounded-[8px] px-4 py-2 text-base bg-[#F4F4F5] text-[#18181B] focus:outline-none resize-none"
                   value={addForm.description}
                   onChange={(e) =>
-                    setAddForm((f) => {
-                      const value = parseInt(e.target.value, 10);
-                      return {
-                        ...f,
-                        stock: isNaN(value) ? 0 : value,
-                      };
-                    })
+                    setAddForm((f) => ({
+                      ...f,
+                      description: e.target.value,
+                    }))
                   }
                 />
               </div>
