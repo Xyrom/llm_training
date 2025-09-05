@@ -10,18 +10,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import settings
 from database import Product, create_tables, get_db
 
-app = FastAPI(title=settings.app_name)
-
-# Allow CORS for frontend (adjust origins as needed)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Change to your frontend URL in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
 class ProductCreateRequest(BaseModel):
     name: str
     price: float
@@ -104,7 +92,7 @@ async def update_product(product_id: int, product: ProductUpdateRequest, db: Asy
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found!")
 
-    for field, value in product.dict(exclude_unset=True).items():
+    for field, value in product.model_dump(exclude_unset=True).items():
         setattr(db_product, field, value)
 
     await db.commit()

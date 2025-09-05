@@ -66,7 +66,7 @@ export default function Home() {
   }
 
   return (
-  <div className="min-h-screen bg-[#fff] font-[Inter,sans-serif]">
+    <div className="min-h-screen bg-[#fff] font-[Inter,sans-serif]">
       <div className="max-w-[1240px] mx-auto pt-8 px-6">
         <div className="flex flex-row items-center justify-between mb-6">
           <h1
@@ -86,32 +86,44 @@ export default function Home() {
         <div className="mb-6">
           <div className="relative w-full max-w-[400px] flex items-center">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#18181B] h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="pl-10 pr-4 py-2 w-full rounded-[8px] bg-[#F7F7F8] text-base text-black placeholder:text-black focus:outline-none shadow-sm border border-[#E5E7EB]"
-                style={{ fontFamily: "Inter, sans-serif" }}
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="pl-10 pr-4 py-2 w-full rounded-[8px] bg-[#F7F7F8] text-base text-black placeholder:text-black focus:outline-none shadow-sm border border-[#E5E7EB]"
+              style={{ fontFamily: "Inter, sans-serif" }}
             />
           </div>
         </div>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">
           {products.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-[16px] p-6 flex flex-col gap-4 min-h-[220px] shadow-sm border border-[#E5E7EB]"
               style={{ fontFamily: "Inter, sans-serif" }}
             >
-              <h2 className="text-[15px] font-normal text-[#18181B] mb-1 tracking-tight" style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
+              <h2
+                className="text-[15px] font-normal text-[#18181B] mb-1 tracking-tight"
+                style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+              >
                 {product.name}
               </h2>
-              <p className="text-[13px] text-[#71717A] flex-1 mb-2" style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
+              <p
+                className="text-[13px] text-[#71717A] flex-1 mb-2"
+                style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+              >
                 {product.description}
               </p>
               <div className="flex justify-between items-end mt-2">
-                <span className="text-[14px] font-normal text-[#18181B]" style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
+                <span
+                  className="text-[14px] font-normal text-[#18181B]"
+                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+                >
                   ${product.price}
                 </span>
-                <span className="text-[12px] text-[#71717A]" style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>
+                <span
+                  className="text-[12px] text-[#71717A]"
+                  style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+                >
                   Stock: {product.stock}
                 </span>
               </div>
@@ -124,7 +136,12 @@ export default function Home() {
                     setShowDetailDialog(true);
                   }}
                 >
-                  <FiEye className="h-4 w-4" /> <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>View</span>
+                  <FiEye className="h-4 w-4" />{" "}
+                  <span
+                    style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+                  >
+                    View
+                  </span>
                 </button>
                 <button
                   className="flex items-center justify-center gap-2 px-4 py-2 min-w-[110px] bg-[#fff] text-[#18181B] rounded-[8px] text-[13px] font-normal border border-[#E5E7EB] hover:bg-[#F7F7F8] transition-all duration-150"
@@ -141,7 +158,12 @@ export default function Home() {
                     setEditError(null);
                   }}
                 >
-                  <FiEdit className="h-4 w-4" /> <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}>Edit</span>
+                  <FiEdit className="h-4 w-4" />{" "}
+                  <span
+                    style={{ fontFamily: "Inter, sans-serif", fontWeight: 400 }}
+                  >
+                    Edit
+                  </span>
                 </button>
                 <button
                   className="flex items-center gap-2 px-4 py-2 bg-[#F43F5E] text-white rounded-[8px] text-[13px] font-normal border border-[#F43F5E] hover:bg-[#e11d48] transition-all duration-150"
@@ -161,11 +183,16 @@ export default function Home() {
       </div>
       {/* Add Product Dialog */}
       {showAddDialog && (
-  <div className="fixed inset-0 flex items-center justify-center z-50" onClick={e => { if (e.target === e.currentTarget) setShowAddDialog(false); }}>
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowAddDialog(false);
+          }}
+        >
           <div
             className="bg-white rounded-[16px] shadow-2xl p-8 w-full max-w-[440px] relative border border-[#E5E7EB]"
             style={{ fontFamily: "Inter, sans-serif" }}
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-5 right-5 text-[#18181B] hover:text-black text-2xl font-bold"
@@ -201,7 +228,9 @@ export default function Home() {
               }}
             >
               <div className="flex flex-col gap-2">
-                <label className="text-[15px] font-semibold text-[#18181B] text-left">Product Name</label>
+                <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                  Product Name
+                </label>
                 <input
                   type="text"
                   placeholder="Enter product name"
@@ -214,19 +243,29 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[15px] font-semibold text-[#18181B] text-left">Description</label>
+                <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                  Description
+                </label>
                 <textarea
                   placeholder="Enter product description"
                   className="rounded-[8px] px-4 py-2 text-base bg-[#F4F4F5] text-[#18181B] focus:outline-none resize-none"
                   value={addForm.description}
                   onChange={(e) =>
-                    setAddForm((f) => ({ ...f, description: e.target.value }))
+                    setAddForm((f) => {
+                      const value = parseInt(e.target.value, 10);
+                      return {
+                        ...f,
+                        stock: isNaN(value) ? 0 : value,
+                      };
+                    })
                   }
                 />
               </div>
               <div className="flex gap-4">
                 <div className="flex flex-col gap-2 w-1/2">
-                  <label className="text-[15px] font-semibold text-[#18181B] text-left">Price ($)</label>
+                  <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                    Price ($)
+                  </label>
                   <input
                     type="number"
                     placeholder="0.00"
@@ -235,16 +274,19 @@ export default function Home() {
                     min={0}
                     step={0.01}
                     value={addForm.price}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
                       setAddForm((f) => ({
                         ...f,
-                        price: parseFloat(e.target.value),
-                      }))
-                    }
+                        price: isNaN(value) ? 0 : value,
+                      }));
+                    }}
                   />
                 </div>
                 <div className="flex flex-col gap-2 w-1/2">
-                  <label className="text-[15px] font-semibold text-[#18181B] text-left">Stock</label>
+                  <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                    Stock
+                  </label>
                   <input
                     type="number"
                     placeholder="0"
@@ -286,11 +328,16 @@ export default function Home() {
       )}
       {/* Edit Product Dialog */}
       {showEditDialog && editProduct && (
-  <div className="fixed inset-0 flex items-center justify-center z-50" onClick={e => { if (e.target === e.currentTarget) setShowEditDialog(false); }}>
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowEditDialog(false);
+          }}
+        >
           <div
             className="bg-white rounded-[16px] shadow-2xl p-8 w-full max-w-[440px] relative border border-[#E5E7EB]"
             style={{ fontFamily: "Inter, sans-serif" }}
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-5 right-5 text-[#18181B] hover:text-black text-2xl font-bold"
@@ -323,7 +370,9 @@ export default function Home() {
               }}
             >
               <div className="flex flex-col gap-2">
-                <label className="text-[15px] font-semibold text-[#18181B] text-left">Product Name</label>
+                <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                  Product Name
+                </label>
                 <input
                   type="text"
                   placeholder="Product Name"
@@ -336,7 +385,9 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[15px] font-semibold text-[#18181B] text-left">Description</label>
+                <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                  Description
+                </label>
                 <textarea
                   placeholder="Description"
                   className="rounded-[8px] px-4 py-2 text-base bg-[#F4F4F5] text-[#18181B] focus:outline-none resize-none"
@@ -348,7 +399,9 @@ export default function Home() {
               </div>
               <div className="flex gap-4">
                 <div className="flex flex-col gap-2 w-1/2">
-                  <label className="text-[15px] font-semibold text-[#18181B] text-left">Price ($)</label>
+                  <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                    Price ($)
+                  </label>
                   <input
                     type="number"
                     placeholder="Price"
@@ -366,7 +419,9 @@ export default function Home() {
                   />
                 </div>
                 <div className="flex flex-col gap-2 w-1/2">
-                  <label className="text-[15px] font-semibold text-[#18181B] text-left">Stock</label>
+                  <label className="text-[15px] font-semibold text-[#18181B] text-left">
+                    Stock
+                  </label>
                   <input
                     type="number"
                     placeholder="Stock"
@@ -408,8 +463,17 @@ export default function Home() {
       )}
       {/* Product Detail Dialog */}
       {showDetailDialog && detailProduct && (
-  <div className="fixed inset-0 flex items-center justify-center z-50" onClick={e => { if (e.target === e.currentTarget) setShowDetailDialog(false); }}>
-          <div className="bg-white rounded-[16px] shadow-2xl p-8 w-full max-w-[480px] relative border border-[#E5E7EB]" style={{ fontFamily: 'Inter, sans-serif' }} onClick={e => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowDetailDialog(false);
+          }}
+        >
+          <div
+            className="bg-white rounded-[16px] shadow-2xl p-8 w-full max-w-[480px] relative border border-[#E5E7EB]"
+            style={{ fontFamily: "Inter, sans-serif" }}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               className="absolute top-5 right-5 text-[#18181B] hover:text-black text-2xl font-bold"
               onClick={() => setShowDetailDialog(false)}
@@ -417,37 +481,60 @@ export default function Home() {
             >
               &times;
             </button>
-            <h2 className="text-[18px] font-bold mb-2 text-[#18181B] tracking-tight text-left">Product Details</h2>
-            <h3 className="text-[16px] font-bold mb-2 text-[#18181B] text-left">{detailProduct.name}</h3>
-            <p className="text-[15px] text-[#71717A] mb-4 text-left">{detailProduct.description}</p>
+            <h2 className="text-[18px] font-bold mb-2 text-[#18181B] tracking-tight text-left">
+              Product Details
+            </h2>
+            <h3 className="text-[16px] font-bold mb-2 text-[#18181B] text-left">
+              {detailProduct.name}
+            </h3>
+            <p className="text-[15px] text-[#71717A] mb-4 text-left">
+              {detailProduct.description}
+            </p>
             <hr className="mb-4" />
             <div className="flex flex-row gap-8 mb-2">
               <div className="flex flex-col items-start w-1/2">
                 <span className="text-[13px] text-[#71717A]">Price:</span>
-                <span className="text-[15px] font-bold text-[#18181B]">${detailProduct.price.toFixed(2)}</span>
+                <span className="text-[15px] font-bold text-[#18181B]">
+                  ${detailProduct.price.toFixed(2)}
+                </span>
               </div>
               <div className="flex flex-col items-start w-1/2">
                 <span className="text-[13px] text-[#71717A]">Stock:</span>
-                <span className="text-[15px] font-bold text-[#18181B] whitespace-pre">{detailProduct.stock} units</span>
+                <span className="text-[15px] font-bold text-[#18181B] whitespace-pre">
+                  {detailProduct.stock} units
+                </span>
               </div>
             </div>
-            <div className="mt-2 text-[13px] text-[#71717A]">Product ID:<br /><span className="text-[#18181B]">{detailProduct.id}</span></div>
+            <div className="mt-2 text-[13px] text-[#71717A]">
+              Product ID:
+              <br />
+              <span className="text-[#18181B]">{detailProduct.id}</span>
+            </div>
           </div>
         </div>
       )}
       {/* Delete Product Dialog */}
       {showDeleteDialog && deleteProduct && (
-  <div className="fixed inset-0 flex items-center justify-center z-50" onClick={e => { if (e.target === e.currentTarget) setShowDeleteDialog(false); }}>
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowDeleteDialog(false);
+          }}
+        >
           <div
             className="bg-white rounded-[16px] shadow-2xl p-8 w-full max-w-[480px] relative border border-[#E5E7EB]"
             style={{ fontFamily: "Inter, sans-serif" }}
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-[20px] font-bold mb-3 text-[#18181B] tracking-tight text-left">
               Delete Product
             </h2>
             <p className="mb-7 text-base text-[#71717A] text-left">
-              Are you sure you want to delete <span className="font-semibold text-[#18181B]">"{deleteProduct.name}"</span>? This action cannot be undone.
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-[#18181B]">
+                "{deleteProduct.name}"
+              </span>
+              ? This action cannot be undone.
             </p>
             {deleteError && (
               <div className="text-[#F43F5E] text-sm mb-2">{deleteError}</div>
