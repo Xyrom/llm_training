@@ -20,10 +20,6 @@ from database import Product, BasketItem, create_tables, get_db
 # Pydantic Schemas
 # =========================
 
-from pydantic import Field
-
-
-
 class BasketItemRequest(BaseModel):
     product_id: int = Field(..., description="Product ID")
     quantity: int = Field(..., description="Quantity", ge=1)
