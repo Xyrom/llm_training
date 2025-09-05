@@ -137,9 +137,10 @@ async def delete_product(product_id: int, db: AsyncSession = Depends(get_db)):
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found!")
     # Remove from basket_items if present
-    await db.execute(
-        BasketItem.__table__.delete().where(BasketItem.product_id == product_id)
-    )
+    result = await db.execute(select(BasketItem).where(BasketItem.product_id == product_id))
+    basket_items = result.scalars().all()
+    for item in basket_items:
+        await db.delete(item)
     await db.delete(db_product)
     await db.commit()
     return {"message": "Product was deleted successfully!"}
