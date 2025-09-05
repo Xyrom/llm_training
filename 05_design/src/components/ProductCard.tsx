@@ -35,8 +35,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </div>
     <div className="flex gap-2 mt-4">
       <button
-        className="flex items-center justify-center gap-2 px-2 py-2 bg-[#22c55e] text-white rounded-[8px] text-[13px] font-normal border border-[#22c55e] hover:bg-[#16a34a] transition-all duration-150 disabled:bg-[#a7f3d0] disabled:text-[#71717A] disabled:cursor-not-allowed"
         title={product.stock > 0 ? "Add to basket" : "Out of stock"}
+        aria-label="Add to basket"
         onClick={() => onAddToBasket(product)}
         disabled={product.stock <= 0}
       >
