@@ -25,6 +25,13 @@ class Product(Base):
     stock = Column(Integer, default=0)
 
 
+class BasketItem(Base):
+    __tablename__ = "basket_items"
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, index=True)
+    quantity = Column(Integer, default=1)
+
+
 async def get_db():
     async with AsyncSessionLocal() as session:
         yield session

@@ -1,3 +1,27 @@
+// Basket API
+export async function getBasket() {
+  const res = await fetch(`${API_URL}/basket/`);
+  if (!res.ok) throw new Error("Failed to fetch basket");
+  return res.json();
+}
+
+export async function addToBasket(productId: number, quantity: number = 1) {
+  const res = await fetch(`${API_URL}/basket/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ product_id: productId, quantity }),
+  });
+  if (!res.ok) throw new Error("Failed to add to basket");
+  return res.json();
+}
+
+export async function removeFromBasket(productId: number) {
+  const res = await fetch(`${API_URL}/basket/${productId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to remove from basket");
+  return res.json();
+}
 // API client for FastAPI backend
 export const API_URL = "http://localhost:8000";
 
