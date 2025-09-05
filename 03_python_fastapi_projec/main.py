@@ -25,7 +25,7 @@ class BasketItemRequest(BaseModel):
     quantity: int = Field(..., description="Quantity", ge=1)
 
 class BasketItemResponse(BaseModel):
-    id: int | None = None
+    id: int
     product: 'ProductResponse'
     quantity: int
 
