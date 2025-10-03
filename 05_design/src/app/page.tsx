@@ -7,6 +7,7 @@ import {
   addProduct,
   updateProduct,
   deleteProduct as deleteProductApi,
+  sendChat,
 } from "../api";
 import { FiEye, FiEdit, FiTrash2, FiSearch } from "react-icons/fi";
 
@@ -47,6 +48,10 @@ export default function Home() {
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [chatQuestion, setChatQuestion] = useState("");
+  const [chatAnswer, setChatAnswer] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const [chatError, setChatError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -62,6 +67,22 @@ export default function Home() {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleSendChat() {
+    if (!chatQuestion.trim()) return;
+    
+    setChatLoading(true);
+    setChatError(null);
+    try {
+      const response = await sendChat(chatQuestion);
+      setChatAnswer(response.answer);
+      setChatQuestion("");
+    } catch (err) {
+      setChatError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setChatLoading(false);
     }
   }
 
@@ -92,6 +113,50 @@ export default function Home() {
               className="pl-10 pr-4 py-2 w-full rounded-[8px] bg-[#F7F7F8] text-base text-black placeholder:text-black focus:outline-none shadow-sm border border-[#E5E7EB]"
               style={{ fontFamily: "Inter, sans-serif" }}
             />
+          </div>
+        </div>
+        {/* Chat Section */}
+        <div className="mb-6 max-w-[600px]">
+          <div className="bg-white rounded-[16px] p-6 shadow-sm border border-[#E5E7EB]">
+            <h2 className="text-[16px] font-semibold text-[#18181B] mb-4" style={{ fontFamily: "Inter, sans-serif" }}>
+              Chat with AI
+            </h2>
+            <div className="flex gap-2 mb-4">
+              <input
+                type="text"
+                placeholder="Ask a question..."
+                value={chatQuestion}
+                onChange={(e) => setChatQuestion(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !chatLoading) {
+                    handleSendChat();
+                  }
+                }}
+                className="flex-1 px-4 py-2 rounded-[8px] bg-[#F7F7F8] text-base text-[#18181B] placeholder:text-[#71717A] focus:outline-none border border-[#E5E7EB]"
+                style={{ fontFamily: "Inter, sans-serif" }}
+                disabled={chatLoading}
+              />
+              <button
+                onClick={handleSendChat}
+                disabled={chatLoading || !chatQuestion.trim()}
+                className="px-6 py-2 bg-[#18181B] text-white rounded-[8px] font-medium text-[14px] shadow hover:bg-[#23223a] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
+                {chatLoading ? "Sending..." : "Send"}
+              </button>
+            </div>
+            {chatError && (
+              <div className="text-red-500 text-[14px] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>
+                {chatError}
+              </div>
+            )}
+            {chatAnswer && (
+              <div className="bg-[#F7F7F8] rounded-[8px] p-4 border border-[#E5E7EB]">
+                <p className="text-[14px] text-[#18181B]" style={{ fontFamily: "Inter, sans-serif" }}>
+                  {chatAnswer}
+                </p>
+              </div>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">

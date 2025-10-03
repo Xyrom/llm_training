@@ -32,6 +32,12 @@ class ProductResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class LLMChatRequest(BaseModel):
+    question: str
+
+class LLMChatResponse(BaseModel):
+    answer: str
+
 
 
 @asynccontextmanager
@@ -110,6 +116,13 @@ async def delete_product(product_id: int, db: AsyncSession = Depends(get_db)):
     await db.delete(db_product)
     await db.commit()
     return {"message": "Product was deleted successfully!"}
+
+
+@app.post("/chat", response_model=LLMChatResponse)
+async def chat(request: LLMChatRequest):
+    # Simple echo response for now - can be enhanced with actual LLM integration
+    answer = f"You asked: {request.question}"
+    return LLMChatResponse(answer=answer)
 
 
 if __name__ == "__main__":
