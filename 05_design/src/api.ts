@@ -53,3 +53,13 @@ export async function deleteProduct(id: number) {
   if (!res.ok) throw new Error("Failed to delete product");
   return res.json();
 }
+
+export async function sendChat(question: string) {
+  const res = await fetch(`${API_URL}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  if (!res.ok) throw new Error("Failed to send chat message");
+  return res.json();
+}
