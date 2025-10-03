@@ -127,7 +127,7 @@ export default function Home() {
                 placeholder="Ask a question..."
                 value={chatQuestion}
                 onChange={(e) => setChatQuestion(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter' && !chatLoading) {
                     handleSendChat();
                   }
